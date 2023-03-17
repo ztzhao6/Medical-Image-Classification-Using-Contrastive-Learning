@@ -1,0 +1,74 @@
+imageType:
+  Original: {}
+  LoG:
+    sigma: [1.0, 2.0, 3.0, 4.0, 5.0]
+  Wavelet: {}
+  Gradient: {}
+
+
+featureClass:
+  # shape:
+  firstorder:
+  glcm:
+    - 'Autocorrelation'
+    - 'JointAverage'
+    - 'ClusterProminence'
+    - 'ClusterShade'
+    - 'ClusterTendency'
+    - 'Contrast'
+    - 'Correlation'
+    - 'DifferenceAverage'
+    - 'DifferenceEntropy'
+    - 'DifferenceVariance'
+    - 'JointEnergy'
+    - 'JointEntropy'
+    - 'Imc1'
+    - 'Imc2'
+    - 'Idm'
+    - 'Idmn'
+    - 'Id'
+    - 'Idn'
+    - 'InverseVariance'
+    - 'MaximumProbability'
+    - 'SumEntropy'
+    - 'SumSquares'
+  glrlm:
+  glszm:
+  ngtdm:
+  gldm:
+
+
+setting:
+
+  # Normalization:
+  # most likely not needed, CT gray values reflect absolute world values (HU) and should be
+  # comparable between scanners.
+  # If analyzing using different scanners / vendors, check if the extracted features are correlated
+  # to the scanner used. If so, consider enabling normalization by uncommenting settings below:
+
+  #normalize: true
+  #normalizeScale: 500  # This allows you to use more or less the same bin width.
+
+  #Resampling:
+  interpolator: 'sitkBSpline'
+  resampledPixelSpacing: [0, 0.8, 0.8]
+
+  padDistance: 10  # Extra padding for large sigma valued LoG filtered images
+
+  # Image discretization:
+  # The ideal number of bins is somewhere in the order of 16-128 bins.
+  # A possible way to define a good binwidth is to extract firstorder:Range from the dataset to
+  # analyze, and choose a binwidth so, that range/binwidth remains approximately in this range of
+  # bins.
+  binWidth: 20
+
+  # first order specific settings:
+  # Minimum value in HU is -1000, shift +1000 to prevent negative values from being squared.
+  voxelArrayShift: 1000
+
+  # default label value
+  label: 2
+
+  geometryTolerance: 0.01
+
+  force2D: True
